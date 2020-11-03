@@ -1,6 +1,6 @@
-CS522 Final Project Repo - Group 4
+# CS522 Final Project Repo - Group 4  
 
-Project Data:
+### Project Data:  
 train.csv -> training data  
 test.csv -> testing_data  
 submission.csv -> format used for submitting solution  
