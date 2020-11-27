@@ -1,7 +1,7 @@
 import load_data
 import pandas as pd
 import numpy as np
-from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score as acs
@@ -23,24 +23,23 @@ Y_test = np.array(testing_labels)[:, -1]
 
 
 
-
 #grid searching
+neighbors = list(range(1,30,5))
+
 param_grid = {
-    'max_iter' : [1000],
-    'activation': ['identity','logistic','relu','tanh'],
-    'solver': ['lbfgs', 'sgd', 'adam'],
-    'hidden_layer_sizes': [(10),(10,10),(10,10,10),(10,10,10,10)],
-    'learning_rate_init': [0.001, 0.005, 0.01],
+    'n_neighbors' : neighbors,
+    'p': [1, 2]
 }
 
-clf = MLPClassifier()
+clf = KNeighborsClassifier()
 grid_search = GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1)
 grid_search.fit(X_train, Y_train)
+#print(grid_search.cv_results_)
 print(grid_search.best_params_)
 
 
+mlp = KNeighborsClassifier(n_neighbors=grid_search.best_params_['n_neighbors'], p=grid_search.best_params_['p'])
 
-mlp = MLPClassifier(hidden_layer_sizes=grid_search.best_params_['hidden_layer_sizes'], activation=grid_search.best_params_['activation'], learning_rate_init=grid_search.best_params_['learning_rate_init'], solver=grid_search.best_params_['solver'], max_iter=1000)
 mlp.fit(X_train, Y_train)
 Y_pred = mlp.predict(X_test)
 

@@ -1,7 +1,7 @@
 import load_data
 import pandas as pd
 import numpy as np
-from sklearn.neural_network import MLPClassifier
+from sklearn.cluster import KMeans
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score as acs
@@ -25,28 +25,35 @@ Y_test = np.array(testing_labels)[:, -1]
 
 
 #grid searching
+clusters = list(range(1,30,1))
 param_grid = {
-    'max_iter' : [1000],
-    'activation': ['identity','logistic','relu','tanh'],
-    'solver': ['lbfgs', 'sgd', 'adam'],
-    'hidden_layer_sizes': [(10),(10,10),(10,10,10),(10,10,10,10)],
-    'learning_rate_init': [0.001, 0.005, 0.01],
+    'n_clusters' : [2],
+    'init' : ['k-means++', 'random'],
+    'n_init': list(range(1,30,10)),
+    'max_iter' : [1000]
 }
 
-clf = MLPClassifier()
-grid_search = GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1)
+clf = KMeans()
+grid_search = GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = 6)
 grid_search.fit(X_train, Y_train)
+print(grid_search.cv_results_)
 print(grid_search.best_params_)
+#Best Params: {}
 
 
 
-mlp = MLPClassifier(hidden_layer_sizes=grid_search.best_params_['hidden_layer_sizes'], activation=grid_search.best_params_['activation'], learning_rate_init=grid_search.best_params_['learning_rate_init'], solver=grid_search.best_params_['solver'], max_iter=1000)
+
+
+mlp = KMeans(n_clusters=grid_search.best_params_['n_clusters'], n_init=grid_search.best_params_['n_init'], init=grid_search.best_params_['init'], max_iter=grid_search.best_params_['max_iter'])
 mlp.fit(X_train, Y_train)
 Y_pred = mlp.predict(X_test)
 
+#typecast to string to match X_test format
+Y_pred = [str(x) for x in Y_pred]
+
 precision, recall, fscore, train_support = score(Y_test, Y_pred, pos_label='1', average='binary')
 print('Precision: {} / Recall: {} / F1-Score: {} / Accuracy: {}'.format(
-    round(precision, 3), round(recall, 3), round(fscore,3), round(acs(Y_test,Y_pred), 3)))
+    round(precision, 3), round(recall, 3), round(fscore,3), round(acs(Y_test, Y_pred), 3)))
 
 cm = confusion_matrix(Y_test, Y_pred)
 class_label = ["0", "1"]

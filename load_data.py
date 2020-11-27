@@ -4,7 +4,7 @@ import re
 import nltk
 from nltk.corpus import stopwords
 from sklearn.feature_extraction.text import TfidfVectorizer
-
+import numpy as np
 #only to run once to download stopword data and wordnet for lemmatizing
 #nltk.download('stopwords')
 #nltk.download('wordnet')
@@ -44,5 +44,4 @@ def vectorize_data(training_data, testing_data):
     tfidf_vect_fit = tfidf_vect.fit(train_tweets_tokenized)
     X_train = tfidf_vect_fit.transform(train_tweets_tokenized)
     X_test = tfidf_vect_fit.transform(test_tweets_tokenized)
-
     return X_train, X_test

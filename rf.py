@@ -23,22 +23,18 @@ Y_test = np.array(testing_labels)[:, -1]
 # Grid searching
 param_grid = {
     'bootstrap': [True],
-    'max_depth': [80, 90, 100, 110, None],
-    'max_features': [2, 3],
-    'min_samples_leaf': [3, 4, 5],
-    'min_samples_split': [8, 10, 12],
     'n_estimators': [100, 200, 300, 1000]
 }
-#rf = RandomForestClassifier()
-#grid_search = GridSearchCV(estimator = rf, param_grid = param_grid, cv = 3, n_jobs = -1, verbose = 2)
-#grid_search.fit(X_train, Y_train)
+rf = RandomForestClassifier()
+grid_search = GridSearchCV(estimator = rf, param_grid = param_grid, n_jobs = -1)
+grid_search.fit(X_train, Y_train)
 #print(grid_search.cv_results_)
-#print(grid_search.best_params_)
+print(grid_search.best_params_)
 
 
 print("Building Random Forest Model")
 t0 = time.time()
-rf = RandomForestClassifier(max_depth=None, n_estimators=150, n_jobs=-1)
+rf = RandomForestClassifier(max_depth=None, bootstrap= True, n_estimators=grid_search.best_params_['n_estimators'], n_jobs = -1)
 rf_model = rf.fit(X_train, Y_train)
 t1 = time.time()
 print("Execution time: " + str(t1 - t0) + " seconds.")
