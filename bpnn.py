@@ -25,6 +25,7 @@ def grid_search_bpnn(X_train, Y_train):
     grid_search = GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1)
     grid_search.fit(X_train, Y_train)
     print(grid_search.best_params_)
+    return grid_search.best_params_
 
 #bpnn with best results
 def bpnn(X_train, Y_train, X_test, Y_test, params):
