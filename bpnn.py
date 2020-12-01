@@ -18,7 +18,7 @@ def grid_search_bpnn(X_train, Y_train):
         'max_iter' : [100000],
         'activation': ['relu'],
         'solver': ['lbfgs'],
-        'hidden_layer_sizes': [(500,100,50)],
+        'hidden_layer_sizes': [(500,100,50), (100,10)],
         'learning_rate_init': [0.0009]
     }
     clf = MLPClassifier()

@@ -16,7 +16,7 @@ def grid_search_kmeans(X_train, Y_train):
         'n_clusters' : [2],
         'init' : ['k-means++'],
         'n_init': list(range(1,30,10)),
-        'max_iter' : [1000]
+        'max_iter' : [10000]
     }
 
     clf = KMeans()

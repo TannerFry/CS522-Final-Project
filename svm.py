@@ -2,7 +2,6 @@ import load_data
 import pandas as pd
 import numpy as np
 from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score as acs
 import matplotlib.pyplot as plt
