@@ -35,11 +35,12 @@ grid_search = GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1
 grid_search.fit(X_train, Y_train)
 print(grid_search.cv_results_)
 print(grid_search.best_params_)
-#Best Params: {}
+t0 = time.time()
 mlp = MiniBatchKMeans(n_clusters=grid_search.best_params_['n_clusters'], init_size=grid_search.best_params_['init_size'], init=grid_search.best_params_['init'], max_iter=grid_search.best_params_['max_iter'], batch_size=grid_search.best_params_['batch_size'])
 mlp.fit(X_train, Y_train)
 Y_pred = mlp.predict(X_test)
-
+t1 = time.time()
+print(f"run time: {t1-t0:.3f}s")
 #typecast to string to match X_test format
 Y_pred = [str(x) for x in Y_pred]
 
