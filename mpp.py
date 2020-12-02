@@ -13,6 +13,14 @@ import sys
 import time
 import util
 import load_data
+from sklearn.decomposition import PCA
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.metrics import precision_recall_fscore_support as score
+from sklearn.metrics import accuracy_score as acs
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+import pandas as pd
 
 def mpp(Tr, yTr, Te, cases, P):
     # training process - derive the model
@@ -110,13 +118,27 @@ def main():
     
     # derive the decision rule from the training set and apply on the test set
     t0 = time.time()           # start time
-    y_model = mpp(X_train, Y_train, X_test, cases, P)
+    Y_pred = mpp(X_train, Y_train, X_test, cases, P)
     t1 = time.time()           # ending time
-    
+
+    print(Y_pred)
+    Y_pred = Y_pred.astype("int")
+    Y_pred = Y_pred.astype("str")
     # calculate accuracy
-    acc_classwise, acc_overall = util.accuracy_score(Y_test.astype(float), y_model)
-    print(f'Overall accuracy = {acc_overall};')
-    print(f'Classwise accuracy = {acc_classwise};')
+    precision, recall, fscore, train_support = score(Y_test, Y_pred, pos_label='1', average='binary')
+    print('Precision: {} / Recall: {} / F1-Score: {} / Accuracy: {}'.format(
+        round(precision, 3), round(recall, 3), round(fscore, 3), round(acs(Y_test, Y_pred), 3)))
+
+    cm = confusion_matrix(Y_test, Y_pred)
+    class_label = ["0", "1"]
+    df_cm = pd.DataFrame(cm, index=class_label, columns=class_label)
+    sns.heatmap(df_cm, annot=True, fmt='d')
+    plt.title("Confusion Matrix")
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.show()
+
+
     print(f'The learning process takes {t1 - t0} seconds.')
 
 
