@@ -26,7 +26,7 @@ param_grid = {
     'n_clusters' : [2],
     'init' : ['random'],
     'init_size': list(range(3,50,10)),
-    'max_iter' : [10000],
+    'max_iter' : [1000000],
     'batch_size' : [1]
 }
 
