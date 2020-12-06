@@ -1,6 +1,7 @@
 import load_data
 import numpy as np
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+import bpnn
 
 def fld(X_train, Y_train, X_test, n_comp):
     lda = LDA(n_components=n_comp)
@@ -28,8 +29,19 @@ def main():
     # reduce data
     X_train, X_test = fld(X_train, Y_train, X_test, 2)
 
-    print(X_train.shape)
-    print(X_test.shape)
+    # params = {
+    #     'activation': 'relu',
+    #     'solver': 'lbfgs',
+    #     'hidden_layer_sizes': (100, 10),
+    #     'learning_rate_init': 0.0009
+    # }
+    #
+    # bpnn.bpnn(X_train, Y_train, X_test, Y_test, params)
+    #
+    # print(X_train.shape)
+    # print(X_test.shape)
+
+
 
 if __name__ == "__main__":
     main()
