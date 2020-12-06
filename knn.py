@@ -7,8 +7,10 @@ from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score as acs
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, roc_curve
 import time
+import sklearn.metrics
+
 
 def grid_search_knn(X_train, Y_train):
     #grid searching
@@ -52,6 +54,9 @@ def knn(X_train, Y_train, X_test, Y_test, params):
     plt.ylabel("True Label")
     plt.show()
 
+    sklearn.metrics.plot_roc_curve(mlp, X_test, Y_test)
+    plt.title("ROC Curve")
+    plt.show()
 
 def main():
 

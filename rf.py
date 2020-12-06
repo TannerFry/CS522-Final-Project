@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 import time
+import sklearn
 
 def rf(X_train, Y_train, X_test, Y_test):
 
@@ -32,6 +33,10 @@ def rf(X_train, Y_train, X_test, Y_test):
     plt.title("Confusion Matrix")
     plt.xlabel("Predicted Label")
     plt.ylabel("True Label")
+    plt.show()
+
+    sklearn.metrics.plot_roc_curve(rf, X_test, Y_test)
+    plt.title("ROC Curve")
     plt.show()
 
 

@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 import time
+import sklearn
 
 def grid_search_kmeans(X_train, Y_train):
     #grid searching

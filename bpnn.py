@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 import time
+import sklearn
 
 
 #test various paramters using param_grid
@@ -50,6 +51,10 @@ def bpnn(X_train, Y_train, X_test, Y_test, params):
     plt.title("Confusion Matrix")
     plt.xlabel("Predicted Label")
     plt.ylabel("True Label")
+    plt.show()
+
+    sklearn.metrics.plot_roc_curve(mlp, X_test, Y_test)
+    plt.title("ROC Curve")
     plt.show()
 
 def main():

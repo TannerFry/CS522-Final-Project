@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
 import time
-
+import sklearn
 
 def svm(X_train, Y_train, X_test, Y_test):
     start = time.time()
@@ -33,6 +33,9 @@ def svm(X_train, Y_train, X_test, Y_test):
     plt.ylabel("True Label")
     plt.show()
 
+    sklearn.metrics.plot_roc_curve(svclassifier, X_test, Y_test)
+    plt.title("ROC Curve")
+    plt.show()
 
 def main():
 
