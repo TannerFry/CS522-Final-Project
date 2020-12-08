@@ -9,6 +9,7 @@ sample_submission.csv -> the submission that gets 100% accuracy on the testing d
 
 
 ### Report
+For the full report with all Results shown, see the report PDF in the repo.
 
 Real or Not? NLP with Disaster Tweets
 
